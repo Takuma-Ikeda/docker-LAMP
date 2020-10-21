@@ -49,9 +49,24 @@ Docker というアプリで簡単に LAMP 開発環境を構築しようと思�
         - v7.4.10
     - Debian
 
+# Docker を準備する: Windows 向け
+
+- [コントロールパネル] - [プログラム] - [Windowsの機能の有効化または無効化] から `Hyper-V` にチェックを付ける
+- PowerShell で `Start-Process powershell.exe -Verb runas` を実行する
+- [BIOS 画面] - [Security] - [Virtualization] で Enable にして `F10` キーで設定保存
+- https://hub.docker.com/
+    - Docker Hub アカウントを新規作成
+    - Docker をダウンロード・インストール
+- `WSL2 installation is incomplete` アラートが表示されたら...
+    - 記載されているURLをクリック
+    - Microsoftの「WSL 2 Linux カーネルの更新」解説ページが表示される
+    - ページ内にある、WSL2 Linuxカーネル更新プログラムパッケージをダウンロード
+    - アラート内の Restart を実行
+- Docker アプリを起動して、作成した Docker Hub アカウントでログインする
+
 ## Docker コンテナ起動方法
 
-`docker-compose.yml` のあるディレクトリで以下コマンドを実行します。
+Docker アプリが起動している状態で `docker-compose.yml` のあるディレクトリに移動して、以下コマンドを実行します。
 
 ```sh
 # Docker コンテナ起動
@@ -89,6 +104,9 @@ docker-compose ps
 # bash というシェルで docker-lamp_mysql_1 コンテナにログインする
 docker exec -it docker-lamp_mysql_1 bash
 
+# Windows の GitBash の場合
+winpty docker exec -it docker-lamp_mysql_1 bash
+
 # MySQL バージョン確認
 mysql --version
 
@@ -116,8 +134,10 @@ MySQL の初期ログイン情報でアクセス可能です。
 docker-compose ps
 
 # bash というシェルで docker-lamp_php-apache_1 コンテナにログインする
-
 docker exec -it docker-lamp_php-apache_1 bash
+
+# Windows の GitBash の場合
+winpty docker exec -it docker-lamp_php-apache_1 bash
 
 # PHP のバージョン確認
 php -v
@@ -128,3 +148,10 @@ apache2ctl -v
 
 コンテナ内の `/var/www/html` (ドキュメントルート) に html や php ファイルを配置すると、
 Apache がファイルを配信してくれるので Google Chrome でアクセスできるようになります。
+
+## Docker コンテナからログアウトする方法
+
+`docker exec` コマンドで Docker コンテナに入ったあと、
+コンテナから抜け出したい場合は `exit` と入力してください。
+
+または `Control D` でも大丈夫です。
