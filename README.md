@@ -144,6 +144,9 @@ php -v
 
 # Apache のバージョン確認
 apache2ctl -v
+
+# php ファイルを実行する
+php [ファイル名]
 ```
 
 コンテナ内の `/var/www/html` (ドキュメントルート) に html や php ファイルを配置すると、
