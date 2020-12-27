@@ -2,12 +2,16 @@ version: '3.7'
 
 services:
     mysql:
-        image: mysql:5.7
+        build:
+            context: ./mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: "password"
+            MYSQL_USER: "root"
+        ports:
+            - "3306:3306"
         volumes:
             - db_data:/var/lib/mysql
         restart: always
-        environment:
-            MYSQL_ROOT_PASSWORD: 'password'
 
     phpmyadmin:
         depends_on:
